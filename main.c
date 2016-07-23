@@ -1,50 +1,5 @@
 #include <stdio.h>
 #include <unistd.h>
-/*
-
-int		largeurEtage_i(int i)
-{
-	if(i == 0)
-		return(7);
-	return(largeurEtage_i(i - 1) + 2 * ((i % 2) + (i / 2) + (3 + i) + 1));
-}
-
-void	etage(int hauteur, int largeur)
-{
-	int i;
-	int j;
-	
-	i = 0;
-	while(i < hauteur)
-	{
-		j = 0;
-		while(j < largeur)
-		{
-			write(1, ".", 1);
-			j++;
-		}
-		write(1, "\n", 1);
-		i++;
-	}
-}
-
-void	statantua(int size)
-{
-	int i;
-	int hauteur;
-	int largeur;
-	
-	i = 0;
-	hauteur = 3;
-	while(i < size)
-	{
-		largeur = largeurEtage_i(i);
-		etage(hauteur, largeur);
-		printf("largeur = %d\n", largeur);
-		i++;
-	}
-}
-*/
 
 int		largeurEtage_i(int i)
 {
@@ -57,7 +12,7 @@ void	etage(int hauteur, int largeur, int decallage)
 {
 	int i;
 	int j;
-	
+
 	i = 0;
 	while(i < hauteur)
 	{
@@ -86,7 +41,7 @@ void	sastantua(int size)
 	int largeur;
 	int decallage;
 	int largeurTotale;
-	
+
 	i = 0;
 	largeurTotale = largeurEtage_i(size - 1);
 	while(i < size)
