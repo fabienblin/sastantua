@@ -1,56 +1,15 @@
 #include <stdio.h>
 #include <unistd.h>
-
-void	sastantua(int size);
-void	etage(int largeur, int hauteur, int largeurTotale);
-int		largeurEtage_i(int i);
-
-int main()
-{
-	sastantua(4);
-	return 0;
-}
+/*
 
 int		largeurEtage_i(int i)
 {
-	int	largeur = 1;
-	int j = 0;
-	
-	// largeur = 2*hauteurEtage + 2*(i % 2) + 2*i
+	if(i == 0)
+		return(7);
+	return(largeurEtage_i(i - 1) + 2 * ((i % 2) + (i / 2) + (3 + i) + 1));
 }
 
-
-void	sastantua(int size)
-{
-	int i;
-	int largeur;
-	int hauteur;
-	int largeurTotale = 1;
-
-	largeur = 1;
-	hauteur = 3;
-	i = 0;
-	while(i < size)
-	{
-		largeurTotale += 2 * ((i % 2) + hauteur + i);
-		i++;
-		hauteur++;
-	}
-	hauteur = 3;
-	i = 0;
-	printf("largeurTotale = %d\n", largeurTotale);
-	while(i < size)
-	{
-		largeur += 2 * ((i % 2) + hauteur + i);
-//		printf("hauteur\t= %d\nlargeur\t= %d\t=\t(mod = %d)\t(angle = %d))\n", hauteur, largeur, (i % 2), (hauteur * 2));
-		etage(largeur, hauteur, largeurTotale);
-		i++;
-		hauteur++;
-		
-	}
-}
-
-void	etage(int largeur, int hauteur, int largeurTotale)
+void	etage(int hauteur, int largeur)
 {
 	int i;
 	int j;
@@ -59,26 +18,89 @@ void	etage(int largeur, int hauteur, int largeurTotale)
 	while(i < hauteur)
 	{
 		j = 0;
-		while(j < (largeurTotale - largeur) / 2)
-		{
-			write(1, " ", 1);
-			j++;
-		}
-		j = 0;
-		while(j < (hauteur - i -1))
-		{
-			write(1, " ", 1);
-			j++;
-		}
-		j *= 2;
-		write(1, "/", 1);
-		j+=2;
 		while(j < largeur)
 		{
 			write(1, ".", 1);
 			j++;
 		}
-		write(1, "\\\n", 2);
+		write(1, "\n", 1);
 		i++;
 	}
+}
+
+void	statantua(int size)
+{
+	int i;
+	int hauteur;
+	int largeur;
+	
+	i = 0;
+	hauteur = 3;
+	while(i < size)
+	{
+		largeur = largeurEtage_i(i);
+		etage(hauteur, largeur);
+		printf("largeur = %d\n", largeur);
+		i++;
+	}
+}
+*/
+
+int		largeurEtage_i(int i)
+{
+	if(i == 0)
+		return(7);
+	return(largeurEtage_i(i - 1) + 2 * (1 + (3 + i) + ((i % 2) + (i / 2))));
+}
+
+void	etage(int hauteur, int largeur, int decallage)
+{
+	int i;
+	int j;
+	
+	i = 0;
+	while(i < hauteur)
+	{
+		j = -decallage;
+		while(j < hauteur - 1 - i)
+		{
+			write(1, " ", 1);
+			j++;
+		}
+		write(1, "/", 1);
+		while(j < largeur - (hauteur + 1 - i))
+		{
+			write(1, ".", 1);
+			j++;
+		}
+		write(1, "\\", 1);
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+void	sastantua(int size)
+{
+	int i;
+	int hauteur;
+	int largeur;
+	int decallage;
+	int largeurTotale;
+	
+	i = 0;
+	largeurTotale = largeurEtage_i(size - 1);
+	while(i < size)
+	{
+		hauteur = 3 + i;
+		largeur = largeurEtage_i(i);
+		decallage = (largeurTotale - largeur) / 2;
+		etage(hauteur, largeur, decallage);
+		i++;
+	}
+}
+
+int		main(int argc, char **argv)
+{
+	sastantua(5);
+	return 0;
 }
